@@ -20,7 +20,7 @@ namespace MusicMuse.Data
             string role2 = "Musician";
             string decs2 = "This is the role for a single musician";
 
-            string role3 = "Business Owner";
+            string role3 = "Business";
             string decs3 = "This is a role for a business owner";
 
             string password = "P@$$w0rd";

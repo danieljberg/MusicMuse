@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using MusicMuse.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MusicMuse.Models;
 
 namespace MusicMuse
 {
@@ -37,7 +38,7 @@ namespace MusicMuse
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 

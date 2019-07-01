@@ -1,0 +1,52 @@
+﻿@model MusicMuse.Models.Musician
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Musician</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Instrument)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Instrument)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LookingForBand)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LookingForBand)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.WantToCollaborate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WantToCollaborate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

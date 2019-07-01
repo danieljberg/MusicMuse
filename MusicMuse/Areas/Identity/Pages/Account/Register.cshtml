@@ -2,6 +2,11 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
+    List<SelectListItem> roles = new List<SelectListItem>();
+    roles.Add(new SelectListItem() { Text = "Band", Value = "Band" });
+    roles.Add(new SelectListItem() { Text = "Musician", Value = "Musician" });
+    roles.Add(new SelectListItem() { Text = "Business", Value = "Business" });
+    ViewBag.roles = roles;
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -26,6 +31,10 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="whiteText form-group">
+                <label>Role</label>
+                <select class='form-control category' style="color: black" asp-for='Input.UserRole' asp-items=ViewBag.roles>Select Role</select>
             </div>
             <button type="submit" class="btn btn-default">Register</button>
         </form>

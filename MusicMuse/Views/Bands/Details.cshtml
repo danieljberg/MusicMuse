@@ -1,0 +1,37 @@
+﻿@model MusicMuse.Models.Band
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Band</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BandName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BandName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MemberLookingFor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MemberLookingFor)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LookingToBeHired)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LookingToBeHired)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

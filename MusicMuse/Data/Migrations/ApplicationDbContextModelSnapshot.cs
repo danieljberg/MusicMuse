@@ -164,6 +164,8 @@ namespace MusicMuse.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("RoleString");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -182,6 +184,57 @@ namespace MusicMuse.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("MusicMuse.Models.Band", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BandName");
+
+                    b.Property<bool>("LookingToBeHired");
+
+                    b.Property<string>("MemberLookingFor");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Band");
+                });
+
+            modelBuilder.Entity("MusicMuse.Models.Business", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BusinessName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Business");
+                });
+
+            modelBuilder.Entity("MusicMuse.Models.Musician", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("Instrument");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<bool>("LookingForBand");
+
+                    b.Property<bool>("WantToCollaborate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Musician");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

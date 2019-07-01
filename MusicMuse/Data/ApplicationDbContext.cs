@@ -13,5 +13,8 @@ namespace MusicMuse.Data
             : base(options)
         {
         }
+        public DbSet<MusicMuse.Models.Band> Band { get; set; }
+        public DbSet<MusicMuse.Models.Business> Business { get; set; }
+        public DbSet<MusicMuse.Models.Musician> Musician { get; set; }
     }
 }

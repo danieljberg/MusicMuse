@@ -10,6 +10,7 @@ namespace MusicMuse.Models
     {
         public ApplicationUser() : base() { }
         
+        public string RoleString { get; set; }
 
     }
 }
