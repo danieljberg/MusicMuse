@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,22 +10,22 @@ using MusicMuse.Models;
 
 namespace MusicMuse.Controllers
 {
-    public class BandsController : Controller
+    public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public BandsController(ApplicationDbContext context)
+        public EventsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Bands
+        // GET: Events
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Band.ToListAsync());
+            return View(await _context.Event.ToListAsync());
         }
 
-        // GET: Bands/Details/5
+        // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace MusicMuse.Controllers
                 return NotFound();
             }
 
-            var band = await _context.Band
+            var @event = await _context.Event
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (band == null)
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            return View(band);
+            return View(@event);
         }
 
-        // GET: Bands/Create
+        // GET: Events/Create
         public IActionResult Create()
         {
-            Band band = new Band();
-            return View(band);
+            return View();
         }
 
-        // POST: Bands/Create
+        // POST: Events/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BandName,MemberLookingFor,LookingToBeHired,Influence1,Influence2,Influence3")] Band band)
+        public async Task<IActionResult> Create([Bind("Id,EventName,EventLocation,Venue")] Event @event)
         {
             if (ModelState.IsValid)
             {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                band.ApplicationUserId = userId;
-                _context.Add(band);
+                _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(band);
+            return View(@event);
         }
 
-        // GET: Bands/Edit/5
+        // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,22 +73,22 @@ namespace MusicMuse.Controllers
                 return NotFound();
             }
 
-            var band = await _context.Band.FindAsync(id);
-            if (band == null)
+            var @event = await _context.Event.FindAsync(id);
+            if (@event == null)
             {
                 return NotFound();
             }
-            return View(band);
+            return View(@event);
         }
 
-        // POST: Bands/Edit/5
+        // POST: Events/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BandName,MemberLookingFor,LookingToBeHired")] Band band)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EventName,EventLocation,Venue")] Event @event)
         {
-            if (id != band.Id)
+            if (id != @event.Id)
             {
                 return NotFound();
             }
@@ -101,12 +97,12 @@ namespace MusicMuse.Controllers
             {
                 try
                 {
-                    _context.Update(band);
+                    _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BandExists(band.Id))
+                    if (!EventExists(@event.Id))
                     {
                         return NotFound();
                     }
@@ -117,10 +113,10 @@ namespace MusicMuse.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(band);
+            return View(@event);
         }
 
-        // GET: Bands/Delete/5
+        // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -128,30 +124,30 @@ namespace MusicMuse.Controllers
                 return NotFound();
             }
 
-            var band = await _context.Band
+            var @event = await _context.Event
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (band == null)
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            return View(band);
+            return View(@event);
         }
 
-        // POST: Bands/Delete/5
+        // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var band = await _context.Band.FindAsync(id);
-            _context.Band.Remove(band);
+            var @event = await _context.Event.FindAsync(id);
+            _context.Event.Remove(@event);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BandExists(int id)
+        private bool EventExists(int id)
         {
-            return _context.Band.Any(e => e.Id == id);
+            return _context.Event.Any(e => e.Id == id);
         }
     }
 }

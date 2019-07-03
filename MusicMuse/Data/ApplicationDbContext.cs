@@ -7,14 +7,17 @@ using MusicMuse.Models;
 
 namespace MusicMuse.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,string>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole, string>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public DbSet<Band> Band { get; set; }
+        public DbSet<Business> Business { get; set; }
+        public DbSet<Musician> Musician { get; set; }
+        public DbSet<ApplicationRole> Roll { get; set; }
+        public DbSet<ApplicationUser> User { get; set; }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
-        public DbSet<MusicMuse.Models.Band> Band { get; set; }
-        public DbSet<MusicMuse.Models.Business> Business { get; set; }
-        public DbSet<MusicMuse.Models.Musician> Musician { get; set; }
+        public DbSet<MusicMuse.Models.Event> Event { get; set; }
     }
 }

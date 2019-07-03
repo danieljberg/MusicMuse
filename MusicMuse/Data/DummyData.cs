@@ -14,6 +14,11 @@ namespace MusicMuse.Data
                                 RoleManager<ApplicationRole> roleManager)
         {
             context.Database.EnsureCreated();
+
+            string adminId1 = "";
+            string adminId2 = "";
+            string adminId3 = "";
+
             string role1 = "Band";
             string decs1 = "This is the role for the admin user in a band";
 
@@ -37,6 +42,60 @@ namespace MusicMuse.Data
             {
                 await roleManager.CreateAsync(new ApplicationRole(role3, decs3, DateTime.Now));
             }
+            if (await userManager.FindByNameAsync("band@band.com") == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = "band@band.com",
+                    Email = "band@band.com",
+                    RoleString = "band"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role1);
+                }
+                adminId1 = user.Id;
+            }
+
+            if (await userManager.FindByNameAsync("musician@musician.com") == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = "musician@musician.com",
+                    Email = "musician@musician.com",
+                    RoleString = "musician"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role2);
+                }
+                adminId2 = user.Id;
+            }
+
+            if (await userManager.FindByNameAsync("business@business.com") == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = "business@business.com",
+                    Email = "business@business.com",
+                    RoleString = "business"
+                };
+
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                    await userManager.AddToRoleAsync(user, role3);
+                }
+                adminId3 = user.Id;
+            }
+
         }
     }
 }

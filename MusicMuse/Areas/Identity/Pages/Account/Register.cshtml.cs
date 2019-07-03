@@ -16,18 +16,18 @@ namespace MusicMuse.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -71,7 +71,7 @@ namespace MusicMuse.Areas.Identity.Pages.Account
         {
             public const string BandEndUser = "Band";
             public const string MusicianEndUser = "Musician";
-            public const string BusinessEndUser = "Business Owner";
+            public const string BusinessEndUser = "Business";
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -87,19 +87,32 @@ namespace MusicMuse.Areas.Identity.Pages.Account
                     RoleString = Input.UserRole,
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                
                 if (result.Succeeded)
                 {
                     if(!await _roleManager.RoleExistsAsync(StaticDetails.BandEndUser))
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.BandEndUser));
+                        await _roleManager.CreateAsync(new ApplicationRole(StaticDetails.BandEndUser));
                     }
                     if (!await _roleManager.RoleExistsAsync(StaticDetails.MusicianEndUser))
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.MusicianEndUser));
+                        await _roleManager.CreateAsync(new ApplicationRole(StaticDetails.MusicianEndUser));
                     }
                     if (!await _roleManager.RoleExistsAsync(StaticDetails.BusinessEndUser))
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.BusinessEndUser));
+                        await _roleManager.CreateAsync(new ApplicationRole(StaticDetails.BusinessEndUser));
+                    }
+                    if (Input.UserRole == "Band")
+                    {
+                        await _userManager.AddToRoleAsync(user, StaticDetails.BandEndUser);
+                    }
+                    if (Input.UserRole == "Musician")
+                    {
+                        await _userManager.AddToRoleAsync(user, StaticDetails.MusicianEndUser);
+                    }
+                    if (Input.UserRole == "Business")
+                    {
+                        await _userManager.AddToRoleAsync(user, StaticDetails.BusinessEndUser);
                     }
 
                     _logger.LogInformation("User created a new account with password.");
@@ -115,7 +128,19 @@ namespace MusicMuse.Areas.Identity.Pages.Account
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    //return LocalRedirect(returnUrl);
+                    if (user.RoleString == "Band")
+                    {
+                        return RedirectToAction("Create", "Bands");
+                    }
+                    if (user.RoleString == "Musician")
+                    {
+                        return RedirectToAction("Create", "Musicians");
+                    }
+                    if (user.RoleString == "Business")
+                    {
+                        return RedirectToAction("Create", "Businesses");
+                    }
                 }
                 foreach (var error in result.Errors)
                 {

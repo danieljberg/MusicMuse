@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -46,7 +47,8 @@ namespace MusicMuse.Controllers
         // GET: Musicians/Create
         public IActionResult Create()
         {
-            return View();
+            Musician musician = new Musician();
+            return View(musician);
         }
 
         // POST: Musicians/Create
@@ -54,10 +56,12 @@ namespace MusicMuse.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Instrument,LookingForBand,WantToCollaborate")] Musician musician)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Instrument,LookingForBand,WantToCollaborate,Influence1,Influence2,Influence3")] Musician musician)
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                musician.ApplicationUserId = userId;
                 _context.Add(musician);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

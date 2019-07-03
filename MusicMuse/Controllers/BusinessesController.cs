@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -46,7 +47,8 @@ namespace MusicMuse.Controllers
         // GET: Businesses/Create
         public IActionResult Create()
         {
-            return View();
+            Business business = new Business();
+            return View(business);
         }
 
         // POST: Businesses/Create
@@ -58,6 +60,8 @@ namespace MusicMuse.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                business.ApplicationUserId = userId;
                 _context.Add(business);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicMuse.Data;
 
 namespace MusicMuse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190701204537_UpdateForeignKeyOnAllModels")]
+    partial class UpdateForeignKeyOnAllModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,12 +198,6 @@ namespace MusicMuse.Data.Migrations
 
                     b.Property<string>("BandName");
 
-                    b.Property<string>("Influence1");
-
-                    b.Property<string>("Influence2");
-
-                    b.Property<string>("Influence3");
-
                     b.Property<bool>("LookingToBeHired");
 
                     b.Property<string>("MemberLookingFor");
@@ -230,23 +226,6 @@ namespace MusicMuse.Data.Migrations
                     b.ToTable("Business");
                 });
 
-            modelBuilder.Entity("MusicMuse.Models.Event", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("EventLocation");
-
-                    b.Property<string>("EventName");
-
-                    b.Property<string>("Venue");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Event");
-                });
-
             modelBuilder.Entity("MusicMuse.Models.Musician", b =>
                 {
                     b.Property<int>("Id")
@@ -256,12 +235,6 @@ namespace MusicMuse.Data.Migrations
                     b.Property<string>("ApplicationUserId");
 
                     b.Property<string>("FirstName");
-
-                    b.Property<string>("Influence1");
-
-                    b.Property<string>("Influence2");
-
-                    b.Property<string>("Influence3");
 
                     b.Property<string>("Instrument");
 
@@ -325,21 +298,21 @@ namespace MusicMuse.Data.Migrations
 
             modelBuilder.Entity("MusicMuse.Models.Band", b =>
                 {
-                    b.HasOne("MusicMuse.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("MusicMuse.Models.ApplicationUser", "AppilcationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("MusicMuse.Models.Business", b =>
                 {
-                    b.HasOne("MusicMuse.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("MusicMuse.Models.ApplicationUser", "AppilcationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("MusicMuse.Models.Musician", b =>
                 {
-                    b.HasOne("MusicMuse.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("MusicMuse.Models.ApplicationUser", "AppilcationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
                 });
