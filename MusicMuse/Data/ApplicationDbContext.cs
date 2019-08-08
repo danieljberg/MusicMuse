@@ -14,10 +14,13 @@ namespace MusicMuse.Data
         public DbSet<Musician> Musician { get; set; }
         public DbSet<ApplicationRole> Roll { get; set; }
         public DbSet<ApplicationUser> User { get; set; }
+        public DbSet<Influence> Influence { get; set; }
+        public DbSet<Event> Event { get; set; }
+        public DbSet<MusicianBandInfluenceScore> MusicianBandInfluenceScore { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
-        public DbSet<MusicMuse.Models.Event> Event { get; set; }
+        
     }
 }

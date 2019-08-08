@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,8 +22,8 @@ namespace MusicMuse.Controllers
 
         // GET: Events
         public async Task<IActionResult> Index()
-        {
-            return View(await _context.Event.ToListAsync());
+        {            
+            return View();
         }
 
         // GET: Events/Details/5
@@ -46,7 +47,8 @@ namespace MusicMuse.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
-            return View();
+            Event @event = new Event();
+            return View(@event);
         }
 
         // POST: Events/Create
@@ -54,14 +56,19 @@ namespace MusicMuse.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EventName,EventLocation,Venue")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,EventName,Venue,EventInfo,BusinessId")] Event @event)
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var businessLoggedIn = _context.Business.Where(x => x.ApplicationUserId == userId).Single();
+                @event.BusinessId = businessLoggedIn.Id;
+                @event.Posted = DateTime.Today;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Businesses");
             }
+            //ViewData["BusinessId"] = new SelectList(_context.Business, "Id", "Id", @event.BusinessId);
             return View(@event);
         }
 
@@ -78,6 +85,7 @@ namespace MusicMuse.Controllers
             {
                 return NotFound();
             }
+            ViewData["BusinessId"] = new SelectList(_context.Business, "Id", "Id", @event.BusinessId);
             return View(@event);
         }
 
@@ -86,7 +94,7 @@ namespace MusicMuse.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EventName,EventLocation,Venue")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EventName,Venue,EventInfo,BusinessId,Posted")] Event @event)
         {
             if (id != @event.Id)
             {
@@ -113,6 +121,7 @@ namespace MusicMuse.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BusinessId"] = new SelectList(_context.Business, "Id", "Id", @event.BusinessId);
             return View(@event);
         }
 

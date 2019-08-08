@@ -23,9 +23,9 @@ namespace MusicMuse.Models
         public string Influence2 { get; set; }
         [Display(Name = "Third Influence")]
         public string Influence3 { get; set; }
-        [Display(Name = "Are you looking for a band?\nCheck box if you are.")]
+        [Display(Name = "Are you looking for a band?")]
         public bool LookingForBand { get; set; }
-        [Display(Name = "Are you looking to collaborate with other musicians?\nCheck box if you are.")]
+        [Display(Name = "Are you looking to collaborate with other musicians?")]
         public bool WantToCollaborate { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }

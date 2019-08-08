@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicMuse.Models.Band>
+﻿@model IEnumerable<MusicMuse.Models.Musician>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,19 +8,19 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @*<a asp-action="Create">Find Musicians</a>*@
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BandName)
+                @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MemberLookingFor)
+                @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LookingToBeHired)
+                @Html.DisplayNameFor(model => model.Instrument)
             </th>
             <th></th>
         </tr>
@@ -29,18 +29,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BandName)
+                @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MemberLookingFor)
+                @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LookingToBeHired)
+                @Html.DisplayFor(modelItem => item.Instrument)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
             </td>
         </tr>
 }

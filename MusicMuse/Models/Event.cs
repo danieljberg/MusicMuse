@@ -13,10 +13,14 @@ namespace MusicMuse.Models
         public int Id { get; set; }
         [Display(Name ="Name of Event")]
         public string EventName { get; set; }
-        [Display(Name ="Event Location")]
-        public string EventLocation { get; set; }
         public string Venue { get; set; }
-        
+        [Display(Name = "Event Information")]
+        public string EventInfo { get; set; }
+        [ForeignKey("Business")]
+        public int BusinessId { get; set; }
+        public Business Business { get; set; }
+        public DateTime Posted { get; set; }
+
 
     }
 }

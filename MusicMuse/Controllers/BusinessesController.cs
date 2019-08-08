@@ -23,7 +23,7 @@ namespace MusicMuse.Controllers
         // GET: Businesses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Business.ToListAsync());
+            return View(await _context.Event.ToListAsync());
         }
 
         // GET: Businesses/Details/5

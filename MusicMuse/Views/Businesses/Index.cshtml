@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicMuse.Models.Business>
+﻿@model IEnumerable<MusicMuse.Models.Event>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,13 +8,19 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="Events" asp-action="Create">Create New Event</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BusinessName)
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Venue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventInfo)
             </th>
             <th></th>
         </tr>
@@ -23,7 +29,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BusinessName)
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Venue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventInfo)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

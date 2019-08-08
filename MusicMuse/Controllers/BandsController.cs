@@ -23,7 +23,17 @@ namespace MusicMuse.Controllers
         // GET: Bands
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Band.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Band bandLoggedIn = _context.Band.Where(x => x.ApplicationUserId == userId).Single();
+
+            List<Musician> musicians = _context.MusicianBandInfluenceScore
+                .Include(mbis => mbis.Musician)
+                .Where(mbis => mbis.BandId == bandLoggedIn.Id && mbis.Musician.LookingForBand && mbis.Musician.Instrument == bandLoggedIn.MemberLookingFor)
+                .OrderByDescending(mbis => mbis.InfluenceScore)
+                .Select(mbis => mbis.Musician)
+                .ToList();
+            
+            return View(musicians);
         }
 
         // GET: Bands/Details/5
@@ -34,8 +44,7 @@ namespace MusicMuse.Controllers
                 return NotFound();
             }
 
-            var band = await _context.Band
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var band = await _context.Band.FirstOrDefaultAsync(m => m.Id == id);
             if (band == null)
             {
                 return NotFound();
@@ -62,8 +71,58 @@ namespace MusicMuse.Controllers
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 band.ApplicationUserId = userId;
-                _context.Add(band);
+                _context.Band.Add(band);
                 await _context.SaveChangesAsync();
+
+                List<Musician> listOfMusicians = _context.Musician.ToList();
+                foreach (var musician in listOfMusicians)
+                {
+                    MusicianBandInfluenceScore musicianBandInfluenceScore = new MusicianBandInfluenceScore();
+                    var influenceScore = 0;
+                    if (musician.Influence1 == band.Influence1)
+                    {
+                        influenceScore += 15;
+                    }
+                    if (musician.Influence1 == band.Influence2)
+                    {
+                        influenceScore += 10;
+                    }
+                    if (musician.Influence1 == band.Influence3)
+                    {
+                        influenceScore += 7;
+                    }
+                    if (musician.Influence2 == band.Influence1)
+                    {
+                        influenceScore += 10;
+                    }
+                    if (musician.Influence2 == band.Influence2)
+                    {
+                        influenceScore += 7;
+                    }
+                    if (musician.Influence2 == band.Influence3)
+                    {
+                        influenceScore += 5;
+                    }
+                    if (musician.Influence3 == band.Influence1)
+                    {
+                        influenceScore += 7;
+                    }
+                    if (musician.Influence3 == band.Influence2)
+                    {
+                        influenceScore += 5;
+                    }
+                    if (musician.Influence3 == band.Influence3)
+                    {
+                        influenceScore += 3;
+                    }
+                    musicianBandInfluenceScore.BandId = band.Id;
+                    musicianBandInfluenceScore.MusicianId = musician.Id;
+                    musicianBandInfluenceScore.InfluenceScore = influenceScore;                   
+                    _context.MusicianBandInfluenceScore.Add(musicianBandInfluenceScore);
+                    await _context.SaveChangesAsync();
+                }
+
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(band);
@@ -153,5 +212,8 @@ namespace MusicMuse.Controllers
         {
             return _context.Band.Any(e => e.Id == id);
         }
+
+        
+
     }
 }

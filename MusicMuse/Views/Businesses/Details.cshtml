@@ -19,7 +19,24 @@
         </dd>
     </dl>
 </div>
+
 <div>
+    <a asp-area="Event" asp-page="Create">Create Event</a>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+<input type="button" name="GetMusicians" value="Bands" />
+<div id="matchingMusicians" style="display:contents">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Top Influence</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+

@@ -7,16 +7,12 @@ using System.Threading.Tasks;
 
 namespace MusicMuse.Models
 {
-    public class Business
+    public class Influence
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name = "Name of Business")]
-        public string BusinessName { get; set; }
+        public string BandName { get; set; }
 
-        [ForeignKey("ApplicationUser")]
-        public string ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }

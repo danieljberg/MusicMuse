@@ -17,10 +17,16 @@
                 @Html.DisplayNameFor(model => model.EventName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EventLocation)
+                @Html.DisplayNameFor(model => model.Venue)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Venue)
+                @Html.DisplayNameFor(model => model.EventInfo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Business)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Posted)
             </th>
             <th></th>
         </tr>
@@ -32,10 +38,16 @@
                 @Html.DisplayFor(modelItem => item.EventName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EventLocation)
+                @Html.DisplayFor(modelItem => item.Venue)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Venue)
+                @Html.DisplayFor(modelItem => item.EventInfo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Business.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Posted)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

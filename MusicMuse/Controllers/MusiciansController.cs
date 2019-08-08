@@ -64,6 +64,54 @@ namespace MusicMuse.Controllers
                 musician.ApplicationUserId = userId;
                 _context.Add(musician);
                 await _context.SaveChangesAsync();
+
+                List<Band> listOfBands = _context.Band.ToList();
+                foreach (var band in listOfBands)
+                {
+                    MusicianBandInfluenceScore musicianBandInfluenceScore = new MusicianBandInfluenceScore();
+                    var influenceScore = 0;
+                    if (musician.Influence1 == band.Influence1)
+                    {
+                        influenceScore += 15;
+                    }
+                    if (musician.Influence1 == band.Influence2)
+                    {
+                        influenceScore += 10;
+                    }
+                    if (musician.Influence1 == band.Influence3)
+                    {
+                        influenceScore += 7;
+                    }
+                    if (musician.Influence2 == band.Influence1)
+                    {
+                        influenceScore += 10;
+                    }
+                    if (musician.Influence2 == band.Influence2)
+                    {
+                        influenceScore += 7;
+                    }
+                    if (musician.Influence2 == band.Influence3)
+                    {
+                        influenceScore += 5;
+                    }
+                    if (musician.Influence3 == band.Influence1)
+                    {
+                        influenceScore += 7;
+                    }
+                    if (musician.Influence3 == band.Influence2)
+                    {
+                        influenceScore += 5;
+                    }
+                    if (musician.Influence3 == band.Influence3)
+                    {
+                        influenceScore += 3;
+                    }
+                    musicianBandInfluenceScore.BandId = band.Id;
+                    musicianBandInfluenceScore.MusicianId = musician.Id;
+                    musicianBandInfluenceScore.InfluenceScore = influenceScore;
+                    _context.MusicianBandInfluenceScore.Add(musicianBandInfluenceScore);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(musician);

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicMuse.Data;
 
 namespace MusicMuse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190806181837_addedNewDbSet")]
+    partial class addedNewDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,19 +238,15 @@ namespace MusicMuse.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BusinessId");
+                    b.Property<string>("BusinessId");
 
-                    b.Property<string>("EventInfo");
+                    b.Property<string>("EventLocation");
 
                     b.Property<string>("EventName");
-
-                    b.Property<DateTime>("Posted");
 
                     b.Property<string>("Venue");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BusinessId");
 
                     b.ToTable("Event");
                 });
@@ -305,7 +303,7 @@ namespace MusicMuse.Data.Migrations
 
                     b.Property<int>("BandId");
 
-                    b.Property<int>("InfluenceScore");
+                    b.Property<string>("InfluenceScore");
 
                     b.Property<int>("MusicianId");
 
@@ -375,14 +373,6 @@ namespace MusicMuse.Data.Migrations
                     b.HasOne("MusicMuse.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("MusicMuse.Models.Event", b =>
-                {
-                    b.HasOne("MusicMuse.Models.Business", "Business")
-                        .WithMany()
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MusicMuse.Models.Musician", b =>

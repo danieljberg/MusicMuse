@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicMuse.Data;
 
 namespace MusicMuse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190704215633_AddedJunctionTablesAndInfluenceTable")]
+    partial class AddedJunctionTablesAndInfluenceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,34 +238,17 @@ namespace MusicMuse.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BusinessId");
+                    b.Property<string>("BusinessId");
 
-                    b.Property<string>("EventInfo");
+                    b.Property<string>("EventLocation");
 
                     b.Property<string>("EventName");
-
-                    b.Property<DateTime>("Posted");
 
                     b.Property<string>("Venue");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BusinessId");
-
                     b.ToTable("Event");
-                });
-
-            modelBuilder.Entity("MusicMuse.Models.Influence", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BandName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Influence");
                 });
 
             modelBuilder.Entity("MusicMuse.Models.Musician", b =>
@@ -295,27 +280,6 @@ namespace MusicMuse.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Musician");
-                });
-
-            modelBuilder.Entity("MusicMuse.Models.MusicianBandInfluenceScore", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BandId");
-
-                    b.Property<int>("InfluenceScore");
-
-                    b.Property<int>("MusicianId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BandId");
-
-                    b.HasIndex("MusicianId");
-
-                    b.ToTable("MusicianBandInfluenceScore");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -377,32 +341,11 @@ namespace MusicMuse.Data.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
-            modelBuilder.Entity("MusicMuse.Models.Event", b =>
-                {
-                    b.HasOne("MusicMuse.Models.Business", "Business")
-                        .WithMany()
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("MusicMuse.Models.Musician", b =>
                 {
                     b.HasOne("MusicMuse.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("MusicMuse.Models.MusicianBandInfluenceScore", b =>
-                {
-                    b.HasOne("MusicMuse.Models.Band", "Band")
-                        .WithMany()
-                        .HasForeignKey("BandId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MusicMuse.Models.Musician", "Musician")
-                        .WithMany()
-                        .HasForeignKey("MusicianId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
