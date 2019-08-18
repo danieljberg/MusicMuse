@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicMuse.Models.Musician>
+﻿@model MusicMuse.Models.Band
 
 @{
     ViewData["Title"] = "Index";
@@ -10,40 +10,40 @@
 <p>
     @*<a asp-action="Create">Find Musicians</a>*@
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Instrument)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instrument)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
 
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<div>
+    <h4>Band</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BandName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BandName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MemberLookingFor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MemberLookingFor)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LookingToBeHired)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LookingToBeHired)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
+    <a asp-action="Musicians" asp-route-id="@Model.Id">Find Musicians</a> |
+    <a asp-action="Musicians" asp-route-id="@Model.Id">Upload Music</a>
+</div>

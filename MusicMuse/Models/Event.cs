@@ -20,7 +20,12 @@ namespace MusicMuse.Models
         public int BusinessId { get; set; }
         public Business Business { get; set; }
         public DateTime Posted { get; set; }
-
+        [Display(Name = "Frist Band")]
+        public string Influence1 { get; set; }
+        [Display(Name = "Second Band ")]
+        public string Influence2 { get; set; }
+        [Display(Name = "Third Band")]
+        public string Influence3 { get; set; }
 
     }
 }

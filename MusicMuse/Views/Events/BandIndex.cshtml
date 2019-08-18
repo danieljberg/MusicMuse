@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MusicMuse.Models.Band>
+
+@{
+    ViewData["Title"] = "BandIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>BandIndex</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BandName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Influence1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Influence2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Influence3)
+            </th>            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BandName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Influence1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Influence2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Influence3)
+            </td>
+            <td>
+                <a asp-action="" asp-route-id="@item.Id">Book This Band</a> |
+                <a asp-action="" asp-route-id="@item.Id">Chat with Band</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

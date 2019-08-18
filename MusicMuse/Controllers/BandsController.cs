@@ -24,16 +24,8 @@ namespace MusicMuse.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Band bandLoggedIn = _context.Band.Where(x => x.ApplicationUserId == userId).Single();
-
-            List<Musician> musicians = _context.MusicianBandInfluenceScore
-                .Include(mbis => mbis.Musician)
-                .Where(mbis => mbis.BandId == bandLoggedIn.Id && mbis.Musician.LookingForBand && mbis.Musician.Instrument == bandLoggedIn.MemberLookingFor)
-                .OrderByDescending(mbis => mbis.InfluenceScore)
-                .Select(mbis => mbis.Musician)
-                .ToList();
-            
-            return View(musicians);
+            var bandLoggedIn = _context.Band.Where(x => x.ApplicationUserId == userId).FirstOrDefault();
+            return View(bandLoggedIn);
         }
 
         // GET: Bands/Details/5
@@ -120,9 +112,7 @@ namespace MusicMuse.Controllers
                     musicianBandInfluenceScore.InfluenceScore = influenceScore;                   
                     _context.MusicianBandInfluenceScore.Add(musicianBandInfluenceScore);
                     await _context.SaveChangesAsync();
-                }
-
-                
+                }                
                 return RedirectToAction(nameof(Index));
             }
             return View(band);
@@ -149,7 +139,7 @@ namespace MusicMuse.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BandName,MemberLookingFor,LookingToBeHired")] Band band)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BandName,MemberLookingFor,LookingToBeHired,ApplicationUserId")] Band band)
         {
             if (id != band.Id)
             {
@@ -213,7 +203,20 @@ namespace MusicMuse.Controllers
             return _context.Band.Any(e => e.Id == id);
         }
 
-        
+        public async Task<IActionResult> Musicians()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var bandLoggedIn = _context.Band.Where(x => x.ApplicationUserId == userId).Single();           
+
+            List<Musician> musicians = _context.MusicianBandInfluenceScore
+                .Include(mbis => mbis.Musician)
+                .Where(mbis => mbis.BandId == bandLoggedIn.Id && mbis.Musician.LookingForBand && mbis.Musician.Instrument == bandLoggedIn.MemberLookingFor)
+                .OrderByDescending(mbis => mbis.InfluenceScore)
+                .Select(mbis => mbis.Musician)
+                .ToList();
+
+            return View(musicians);
+        }
 
     }
 }

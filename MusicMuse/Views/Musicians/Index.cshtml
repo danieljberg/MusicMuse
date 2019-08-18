@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicMuse.Models.Musician>
+﻿@model MusicMuse.Models.Musician
 
 @{
     ViewData["Title"] = "Index";
@@ -7,54 +7,44 @@
 
 <h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Instrument)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LookingForBand)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WantToCollaborate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instrument)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LookingForBand)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WantToCollaborate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Instrument)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Instrument)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LookingForBand)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LookingForBand)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.WantToCollaborate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WantToCollaborate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
+    <a asp-action="Bands" asp-route-id="@Model.Id">Find Bands</a> |
+    <a asp-action="Musicians" asp-route-id="@Model.Id">Find Musicians</a> |
+    <a asp-action="Musicians" asp-route-id="@Model.Id">Upload Music</a>
+</div>

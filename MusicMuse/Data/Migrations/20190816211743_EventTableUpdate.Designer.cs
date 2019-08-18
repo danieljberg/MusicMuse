@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicMuse.Data;
 
 namespace MusicMuse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190816211743_EventTableUpdate")]
+    partial class EventTableUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -345,25 +347,6 @@ namespace MusicMuse.Data.Migrations
                     b.ToTable("MusicianBandInfluenceScore");
                 });
 
-            modelBuilder.Entity("MusicMuse.Models.MusicianMusicianInfluenceScore", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("InfluenceScore");
-
-                    b.Property<int>("MusicianId");
-
-                    b.Property<int>("MusicianToCheckId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MusicianId");
-
-                    b.ToTable("MusicianMusicianInfluenceScore");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("MusicMuse.Models.ApplicationRole")
@@ -458,14 +441,6 @@ namespace MusicMuse.Data.Migrations
                         .HasForeignKey("BandId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MusicMuse.Models.Musician", "Musician")
-                        .WithMany()
-                        .HasForeignKey("MusicianId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MusicMuse.Models.MusicianMusicianInfluenceScore", b =>
-                {
                     b.HasOne("MusicMuse.Models.Musician", "Musician")
                         .WithMany()
                         .HasForeignKey("MusicianId")

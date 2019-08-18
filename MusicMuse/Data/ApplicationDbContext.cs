@@ -17,6 +17,8 @@ namespace MusicMuse.Data
         public DbSet<Influence> Influence { get; set; }
         public DbSet<Event> Event { get; set; }
         public DbSet<MusicianBandInfluenceScore> MusicianBandInfluenceScore { get; set; }
+        public DbSet<EventBandInfluenceScore> EventBandInfluenceScore { get; set; }
+        public DbSet<MusicianMusicianInfluenceScore> MusicianMusicianInfluenceScore { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

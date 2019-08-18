@@ -1,10 +1,9 @@
 ﻿@model MusicMuse.Models.Event
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"]="Details" ;
+    Layout="~/Views/Shared/_Layout.cshtml" ;
 }
-
 <h2>Details</h2>
 
 <div>
@@ -29,21 +28,11 @@
         <dd>
             @Html.DisplayFor(model => model.EventInfo)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Business)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Business.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Posted)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Posted)
-        </dd>
     </dl>
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Businesses" asp-action="Index">Back to List</a>
+    <a asp-controller="Events" asp-action="BandIndex" asp-route-id="@Model.Id">Find Bands</a>
 </div>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MusicMuse.Models.Band>
+
+@{
+    ViewData["Title"] = "Bands";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bands</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BandName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Influence1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Influence2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Influence3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberLookingFor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LookingToBeHired)
+            </th>            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BandName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Influence1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Influence2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Influence3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberLookingFor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LookingToBeHired)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Message</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

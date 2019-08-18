@@ -23,7 +23,11 @@ namespace MusicMuse.Controllers
         // GET: Businesses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Event.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var businessLoggedIn = _context.Business.Where(x => x.ApplicationUserId == userId).Single();
+            var events = _context.Event
+                .Where(e => e.BusinessId == businessLoggedIn.Id);
+            return View(events);
         }
 
         // GET: Businesses/Details/5

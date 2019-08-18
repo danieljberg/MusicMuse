@@ -21,9 +21,15 @@ namespace MusicMuse.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
-        {            
-            return View();
+        public async Task<IActionResult> BandIndex(int id)
+        {
+            var bands = _context.EventBandInfluenceScore
+                .Include(mbis => mbis.Band)
+                .Where(mbis => mbis.EventId == id)
+                .OrderByDescending(mbis => mbis.InfluenceScore)
+                .Select(mbis => mbis.Band)
+                .ToList();
+            return View(bands);
         }
 
         // GET: Events/Details/5
@@ -56,16 +62,65 @@ namespace MusicMuse.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EventName,Venue,EventInfo,BusinessId")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,EventName,Venue,EventInfo,BusinessId,Influence1,Influence2,Influence3")] Event @event)
         {
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var businessLoggedIn = _context.Business.Where(x => x.ApplicationUserId == userId).Single();
                 @event.BusinessId = businessLoggedIn.Id;
-                @event.Posted = DateTime.Today;
+                @event.Posted = DateTime.Now;
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
+
+                List<Band> listOfBands = _context.Band.ToList();
+                foreach (var band in listOfBands)
+                {
+                    EventBandInfluenceScore eventBandInfluenceScore = new EventBandInfluenceScore();
+                    var influenceScore = 0;
+                    if (@event.Influence1 == band.Influence1)
+                    {
+                        influenceScore += 15;
+                    }
+                    if (@event.Influence1 == band.Influence2)
+                    {
+                        influenceScore += 10;
+                    }
+                    if (@event.Influence1 == band.Influence3)
+                    {
+                        influenceScore += 7;
+                    }
+                    if (@event.Influence2 == band.Influence1)
+                    {
+                        influenceScore += 10;
+                    }
+                    if (@event.Influence2 == band.Influence2)
+                    {
+                        influenceScore += 7;
+                    }
+                    if (@event.Influence2 == band.Influence3)
+                    {
+                        influenceScore += 5;
+                    }
+                    if (@event.Influence3 == band.Influence1)
+                    {
+                        influenceScore += 7;
+                    }
+                    if (@event.Influence3 == band.Influence2)
+                    {
+                        influenceScore += 5;
+                    }
+                    if (@event.Influence3 == band.Influence3)
+                    {
+                        influenceScore += 3;
+                    }
+                    eventBandInfluenceScore.BandId = band.Id;
+                    eventBandInfluenceScore.EventId = @event.Id;
+                    eventBandInfluenceScore.InfluenceScore = influenceScore;
+                    _context.EventBandInfluenceScore.Add(eventBandInfluenceScore);
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction("Index", "Businesses");
             }
             //ViewData["BusinessId"] = new SelectList(_context.Business, "Id", "Id", @event.BusinessId);
@@ -105,6 +160,9 @@ namespace MusicMuse.Controllers
             {
                 try
                 {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var businessLoggedIn = _context.Business.Where(x => x.ApplicationUserId == userId).Single();
+                    @event.BusinessId = businessLoggedIn.Id;
                     _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
@@ -119,7 +177,7 @@ namespace MusicMuse.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Businesses");
             }
             ViewData["BusinessId"] = new SelectList(_context.Business, "Id", "Id", @event.BusinessId);
             return View(@event);
@@ -151,7 +209,7 @@ namespace MusicMuse.Controllers
             var @event = await _context.Event.FindAsync(id);
             _context.Event.Remove(@event);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Businesses");
         }
 
         private bool EventExists(int id)

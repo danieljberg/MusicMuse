@@ -7,7 +7,7 @@ namespace MusicMuse.Models
 {
     public class BusinessEventViewModel
     {
-        public Business Business { get; set; }
+        public IEnumerable<Band> Band { get; set; }
         public Event Event { get; set; }
 
     }
